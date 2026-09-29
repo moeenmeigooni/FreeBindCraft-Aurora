@@ -6,6 +6,25 @@ This repository includes an Aurora port for Intel XPU accelerators. Follow
 [`aurora/README.md`](aurora/README.md) for the Aurora installer, environment,
 and end-to-end run instructions.
 
+### Quick installation on Aurora
+
+Run this on an Aurora login node. Keep the checkout and environment on shared
+project storage; change `FRAME-IDP` if your allocation uses another project
+directory. This installs the pinned environment, builds the Aurora-compatible
+FASPR tool, and stages the AlphaFold parameters.
+
+```bash
+export AURORA_PROJECT_ROOT="/lus/flare/projects/FRAME-IDP/${USER}"
+mkdir -p "$AURORA_PROJECT_ROOT"
+cd "$AURORA_PROJECT_ROOT"
+git clone https://github.com/moeenmeigooni/FreeBindCraft-Aurora.git
+cd FreeBindCraft-Aurora
+bash aurora/install_FreeBindCraft.sh
+```
+
+For the XPU smoke and bounded end-to-end design commands, see
+[Aurora setup and run instructions](aurora/README.md).
+
 <p align="center">
   <img src="./free-bindcraft.png" alt="FreeBindCraft" width="720" />
 </p>
