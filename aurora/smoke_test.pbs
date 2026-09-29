@@ -12,7 +12,7 @@
 set -eo pipefail
 cd "${PBS_O_WORKDIR}"
 
-module load frameworks
+module load "${AURORA_JAX_ONEAPI_MODULE:-oneapi/release/2025.3.1}"
 set -u
 freebindcraft_env="${FREEBINDCRAFT_AURORA_ENV:-${PBS_O_WORKDIR}/.venv-aurora}"
 if [[ ! -x "${freebindcraft_env}/bin/python" ]]; then

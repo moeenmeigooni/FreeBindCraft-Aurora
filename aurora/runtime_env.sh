@@ -14,6 +14,17 @@ freebindcraft_cache_root="${FREEBINDCRAFT_CACHE_ROOT:-${freebindcraft_env_parent
 freebindcraft_runtime_home="${FREEBINDCRAFT_RUNTIME_HOME:-${freebindcraft_env_parent}/.${freebindcraft_env_name}-runtime-home}"
 freebindcraft_conda_pkgs="${FREEBINDCRAFT_CONDA_PKGS_DIRS:-${freebindcraft_cache_root}/conda-pkgs}"
 
+# Intel Extension for OpenXLA 0.6.0 is linked against the oneAPI 2025 ABI.
+# Aurora's frameworks/2026.1.0 module selects oneAPI 2026.1, so use the PE
+# 26.26.0 module rebuilt for the current OS and GPU driver image.
+if ! command -v module >/dev/null 2>&1; then
+  echo "Aurora's module command is required to load the JAX oneAPI runtime." >&2
+  return 2 2>/dev/null || exit 2
+fi
+set +u
+module load "${AURORA_JAX_ONEAPI_MODULE:-oneapi/release/2025.3.1}"
+set -u
+
 mkdir -p \
   "${freebindcraft_conda_pkgs}" \
   "${freebindcraft_cache_root}/pip" \

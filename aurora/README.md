@@ -16,6 +16,14 @@ Extension for PyTorch cannot accelerate it.  The intended accelerator backend
 is Intel Extension for OpenXLA's PJRT plug-in.  The plug-in exposes each Intel
 GPU as a JAX device with `platform == "sycl"`.
 
+## PE 26.1810 runtime compatibility
+
+The Intel OpenXLA 0.6.0 wheel uses the oneAPI 2025 runtime ABI. On Aurora's
+current PE 26.181.0 image, load the rebuilt PE 26.26.0 runtime with
+`module load oneapi/release/2025.3.1` before running the JAX workflows.
+`aurora/runtime_env.sh` loads it by default; set `AURORA_JAX_ONEAPI_MODULE` to
+override the module name.
+
 ## Live Aurora smoke result
 
 On 2026-08-31, one Aurora debug-node job validated the software stack on one
