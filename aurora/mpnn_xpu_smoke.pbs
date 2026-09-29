@@ -1,0 +1,33 @@
+#!/bin/bash -l
+# Run one real ProteinMPNN sampling pass on the AF2 compatibility-gate PDB.
+# This is an execution check only; it must not be treated as a design result.
+#PBS -N freebindcraft-mpnn-smoke
+#PBS -l select=1
+#PBS -l place=scatter
+#PBS -l walltime=1:00:00
+#PBS -l filesystems=home:flare
+
+set -eo pipefail
+cd "${PBS_O_WORKDIR}"
+
+module load frameworks
+set -u
+freebindcraft_env="${FREEBINDCRAFT_AURORA_ENV:-${PBS_O_WORKDIR}/.venv-aurora}"
+if [[ ! -x "${freebindcraft_env}/bin/python" ]]; then
+  echo "FreeBindCraft environment is missing its Python executable: ${freebindcraft_env}/bin/python" >&2
+  exit 2
+fi
+source "${PBS_O_WORKDIR}/aurora/runtime_env.sh" "${freebindcraft_env}"
+export PATH="${freebindcraft_env}/bin:${PATH}"
+
+export ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE
+export ZE_AFFINITY_MASK=0.0
+export ONEAPI_DEVICE_SELECTOR=level_zero:gpu
+
+trajectory_pdb="$(find aurora_af2_mpnn_smoke_sycl_realign_off/Trajectory/LowConfidence -maxdepth 1 -type f -name '*.pdb' -print -quit)"
+if [[ -z "${trajectory_pdb}" ]]; then
+  echo "No AF2 low-confidence trajectory PDB was found; run aurora/af2_mpnn_smoke.pbs first." >&2
+  exit 2
+fi
+
+python -u aurora/mpnn_xpu_smoke.py --pdb "${trajectory_pdb}"

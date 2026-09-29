@@ -1,0 +1,42 @@
+name: freebindcraft-aurora
+channels:
+  - conda-forge
+dependencies:
+  # Intel's OpenXLA PJRT plug-in 0.6.0 supports Python 3.10--3.13 and pins
+  # JAX/JAXLIB at 0.4.38.  Do not replace these with FreeBindCraft's CUDA
+  # JAX 0.6.0 pins: those wheels cannot execute on Aurora's Intel GPUs.
+  - python=3.11
+  - pip
+  - "numpy<2"
+  - pandas
+  - matplotlib
+  - biopython
+  - scipy
+  - pdbfixer
+  - openmm
+  - seaborn
+  - libgfortran5
+  - libstdcxx-ng
+  - tqdm
+  - jupyter
+  - ffmpeg
+  - fsspec
+  - py3dmol
+  - joblib
+  - pip:
+      - intel-extension-for-openxla==0.6.0
+      - jax==0.4.38
+      - jaxlib==0.4.38
+      - flax==0.10.0
+      - optax==0.2.4
+      # Used only on SYCL to restore ColabDesign's target coordinate frame
+      # after PDB output; the package provides the CPU Kabsch calculation.
+      - rust-simulation-tools==0.2.2
+      - chex
+      - dm-haiku
+      - dm-tree
+      - ml-collections
+      - immutabledict
+      # Keep this revision fixed until the AF2 and MPNN smoke tests pass on
+      # Aurora.  It is the revision inspected for this port.
+      - "git+https://github.com/sokrypton/ColabDesign.git@e31a56fe1d9b4de25c8697f3a28b75892941cc72#egg=colabdesign"

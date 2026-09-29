@@ -1,0 +1,44 @@
+#!/bin/bash -l
+# Bounded AF2/ProteinMPNN acceptance gate.  Submit to a queue that supports
+# one hour of walltime, e.g. qsub -A FRAME-IDP -q debug aurora/af2_mpnn_smoke.pbs
+#PBS -N freebindcraft-af2-smoke
+#PBS -l select=1
+#PBS -l place=scatter
+#PBS -l walltime=1:00:00
+#PBS -l filesystems=home:flare
+
+set -eo pipefail
+cd "${PBS_O_WORKDIR}"
+
+module load frameworks
+set -u
+freebindcraft_env="${FREEBINDCRAFT_AURORA_ENV:-${PBS_O_WORKDIR}/.venv-aurora}"
+if [[ ! -x "${freebindcraft_env}/bin/python" ]]; then
+  echo "FreeBindCraft environment is missing its Python executable: ${freebindcraft_env}/bin/python" >&2
+  exit 2
+fi
+source "${PBS_O_WORKDIR}/aurora/runtime_env.sh" "${freebindcraft_env}"
+echo "FreeBindCraft runtime home: ${HOME}"
+echo "FreeBindCraft cache root: ${FREEBINDCRAFT_CACHE_ROOT}"
+if [[ ! -f "${PBS_O_WORKDIR}/params/params_model_5_ptm.npz" ]]; then
+  echo "AlphaFold parameters are not staged. Run aurora/bootstrap_aurora.sh without --no-weights." >&2
+  exit 2
+fi
+export PATH="${freebindcraft_env}/bin:${PATH}"
+
+export ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE
+export ZE_AFFINITY_MASK=0.0
+export ONEAPI_DEVICE_SELECTOR=level_zero:gpu
+export OPENMM_PLATFORM_ORDER=OpenCL,CPU
+export OPENMM_DEFAULT_PLATFORM=OpenCL
+export OPENMM_CPU_THREADS=1
+export FASPR_BIN="${PBS_O_WORKDIR}/aurora/bin/FASPR"
+
+python -u bindcraft.py \
+  --settings "${FREEBINDCRAFT_AF2_SMOKE_SETTINGS:-aurora/settings_target/PDL1_af2_mpnn_smoke.json}" \
+  --filters settings_filters/default_filters.json \
+  --advanced "${FREEBINDCRAFT_AF2_SMOKE_ADVANCED:-aurora/settings_advanced/af2_mpnn_smoke.json}" \
+  --no-pyrosetta \
+  --no-animations \
+  --no-plots \
+  --verbose

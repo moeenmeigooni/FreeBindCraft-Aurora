@@ -1,0 +1,20 @@
+**/.claude/
+BindCraft-original/
+/mosaic/
+/remote_artifacts/
+.DS_Store
+relax_amber.ipynb
+BindCraft-main-v1.5.code-workspace
+**/__pycache__/
+**/FASPR-master/
+*.cc
+**/ColabDesign-main/
+ipSAE.py
+
+# Local model data, environments, and Aurora validation outputs
+/params/
+/af2-params/
+/.venv-aurora/
+/aurora/artifacts/
+/aurora/validation/
+/aurora_*/

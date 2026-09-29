@@ -1,0 +1,18 @@
+diff --git a/colabdesign/af/loss.py b/colabdesign/af/loss.py
+--- a/colabdesign/af/loss.py
++++ b/colabdesign/af/loss.py
+@@ -77,7 +77,13 @@ class _af_loss:
+       })
+ 
+     else:
+-      align_fn = get_rmsd_loss(inputs, outputs, L=tL)["align"]
++      # The alignment is only consumed below when realign is enabled.  Avoid
++      # the Kabsch SVD altogether when it is disabled; this makes the option
++      # usable on PJRT backends that do not implement eigh/SVD lowering.
++      if self._args["realign"]:
++        align_fn = get_rmsd_loss(inputs, outputs, L=tL)["align"]
++      else:
++        align_fn = lambda x: x
+ 
+     if self._args["realign"]:
+       aux["atom_positions"] = align_fn(aux["atom_positions"]) * aux["atom_mask"][...,None]

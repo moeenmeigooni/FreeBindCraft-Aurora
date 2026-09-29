@@ -1,0 +1,9 @@
+{
+  "design_path": "./aurora_pdl1_rust_alignment_iterative_smoke",
+  "binder_name": "PDL1_rust_alignment_XPU_smoke",
+  "starting_pdb": "./example/PDL1.pdb",
+  "chains": "A",
+  "target_hotspot_residues": "56",
+  "lengths": [65, 65],
+  "number_of_final_designs": 1
+}
