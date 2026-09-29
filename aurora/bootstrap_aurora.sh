@@ -14,7 +14,7 @@ faspr_commit="0d55732fd6307f373018c6bddd842291c355c5f7"
 
 usage() {
   cat <<'EOF'
-Usage: aurora/bootstrap_aurora.sh [--env PREFIX] [--params-dir DIRECTORY] [--skip-weights | --no-weights]
+Usage: aurora/install_aurora.sh [--env PREFIX] [--params-dir DIRECTORY] [--skip-weights | --no-weights]
 
 Run this on an Aurora UAN.  The environment needs Intel's OpenXLA PJRT plugin,
 which is JAX's Intel-GPU backend.  --skip-weights is useful when the AlphaFold

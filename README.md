@@ -19,7 +19,7 @@ mkdir -p "$AURORA_PROJECT_ROOT"
 cd "$AURORA_PROJECT_ROOT"
 git clone https://github.com/moeenmeigooni/FreeBindCraft-Aurora.git
 cd FreeBindCraft-Aurora
-bash aurora/install_FreeBindCraft.sh
+bash aurora/install_aurora.sh
 ```
 
 For the XPU smoke and bounded end-to-end design commands, see

@@ -101,7 +101,7 @@ bootstrap only on an Aurora UAN:
 ```bash
 module load frameworks
 cd /lus/flare/projects/PROJECT/FreeBindCraft
-bash aurora/bootstrap_aurora.sh --env /lus/flare/projects/PROJECT/freebindcraft-aurora
+bash aurora/install_aurora.sh --env /lus/flare/projects/PROJECT/freebindcraft-aurora
 ```
 
 The script creates the pinned environment, builds the pinned FASPR source using
@@ -110,7 +110,7 @@ creates `params -> <shared params directory>`.  To reuse an existing parameter
 cache:
 
 ```bash
-bash aurora/bootstrap_aurora.sh \
+bash aurora/install_aurora.sh \
   --env /lus/flare/projects/PROJECT/freebindcraft-aurora \
   --params-dir /lus/flare/projects/PROJECT/af2-params \
   --skip-weights
@@ -119,7 +119,7 @@ bash aurora/bootstrap_aurora.sh \
 For the initial software-only smoke test, omit the weight download entirely:
 
 ```bash
-bash aurora/bootstrap_aurora.sh --no-weights
+bash aurora/install_aurora.sh --no-weights
 ```
 
 Rerun the bootstrap without `--no-weights` before the first AF2 design; it
@@ -141,7 +141,7 @@ shared project root and run it from the checkout:
 ```bash
 export AURORA_PROJECT_ROOT="/lus/flare/projects/FRAME-IDP/${USER}"
 export FREEBINDCRAFT_REPO="$PWD"
-bash aurora/install_FreeBindCraft.sh
+bash aurora/install_aurora.sh
 ```
 
 By default, it installs the environment to
@@ -153,7 +153,7 @@ parameter cache, set its path and add `--skip-weights`:
 
 ```bash
 export FREEBINDCRAFT_AF2_PARAMS=/path/to/shared/af2-params
-bash aurora/install_FreeBindCraft.sh --skip-weights
+bash aurora/install_aurora.sh --skip-weights
 ```
 
 Set `FREEBINDCRAFT_AURORA_ENV` to the same path before submitting a job.  Pass

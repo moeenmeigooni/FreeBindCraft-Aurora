@@ -226,7 +226,7 @@ def realign_complex_to_input_target(complex_pdb, starting_pdb, input_chain_ids, 
     if _rust_kabsch_align is None:
         raise RuntimeError(
             "rust-simulation-tools==0.2.2 is required for Aurora SYCL target "
-            "realignment; rerun aurora/bootstrap_aurora.sh for this environment"
+            "realignment; rerun aurora/install_aurora.sh for this environment"
         )
 
     complex_atoms = list(complex_structure.get_atoms())

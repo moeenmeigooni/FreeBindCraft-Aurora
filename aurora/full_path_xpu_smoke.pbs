@@ -22,7 +22,7 @@ export PATH="${freebindcraft_env}/bin:${PATH}"
 echo "FreeBindCraft runtime home: ${HOME}"
 echo "FreeBindCraft cache root: ${FREEBINDCRAFT_CACHE_ROOT}"
 if [[ ! -f "${PBS_O_WORKDIR}/params/params_model_5_ptm.npz" ]]; then
-  echo "AlphaFold parameters are not staged. Run aurora/bootstrap_aurora.sh without --no-weights." >&2
+  echo "AlphaFold parameters are not staged. Run aurora/install_aurora.sh without --no-weights." >&2
   exit 2
 fi
 
