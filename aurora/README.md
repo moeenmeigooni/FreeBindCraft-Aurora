@@ -1,5 +1,12 @@
 # FreeBindCraft on ALCF Aurora
 
+## Clone this Aurora port
+
+```bash
+git clone https://github.com/moeenmeigooni/FreeBindCraft-Aurora.git
+cd FreeBindCraft-Aurora
+```
+
 ## Port status
 
 This is a **JAX/SYCL proof-of-port**, not a claim of validated protein-design
